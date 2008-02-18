@@ -1,0 +1,18 @@
+module SiPixelLorentzAngleHLTFilter = HLTHighLevel {
+	InputTag TriggerResultsTag = TriggerResults
+	bool byName = true
+	bool andOr= true
+	vstring HLTPaths ={
+		"HLT1MuonIso",
+		"CandHLT2MuonIso",
+		"HLT2MuonJPsi",
+		"HLT2MuonUpsilon",
+		"HLT2MuonZ",
+		"HLT2MuonSameSign",
+		"CandHLT1MuonPrescalePt3",
+		"CandHLT1MuonPrescalePt5",
+		"CandHLT1MuonPrescalePt7x7",
+		"CandHLT1MuonPrescalePt7x10",
+		"CandHLT1MuonLevel1"
+	}
+}

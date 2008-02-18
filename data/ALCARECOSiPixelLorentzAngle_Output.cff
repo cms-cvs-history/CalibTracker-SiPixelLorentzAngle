@@ -1,0 +1,12 @@
+block OutALCARECOSiPixelLorentzAngle = {
+	untracked vstring outputCommands = {
+		"drop *",
+		"keep *_globalMuons_*_*",     
+		"keep *_siStripClusters_*_*",
+      	"keep *_siPixelClusters_*_*"
+	}
+
+	untracked PSet SelectEvents = {
+		vstring SelectEvents = { "pathALCARECOSiPixelLorentzAngle" }
+	}
+}	

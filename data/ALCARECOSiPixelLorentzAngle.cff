@@ -1,0 +1,3 @@
+include "CalibTracker/SiPixelLorentzAngle/data/SiPixelLorentzAngleHLTFilter.cfi"
+
+sequence seqALCARECOSiPixelLorentzAngle = {SiPixelLorentzAngleHLTFilter}
