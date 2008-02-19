@@ -3,7 +3,8 @@ block OutALCARECOSiPixelLorentzAngle = {
 		"drop *",
 		"keep *_globalMuons_*_*",     
 		"keep *_siStripClusters_*_*",
-      	"keep *_siPixelClusters_*_*"
+      	"keep *_siPixelClusters_*_*",
+		"drop *_*_*_HLT"
 	}
 
 	untracked PSet SelectEvents = {
