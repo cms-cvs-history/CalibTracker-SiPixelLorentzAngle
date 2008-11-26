@@ -1,7 +1,7 @@
 {
 	setTDRStyle();
 	
-	TFile *f = new TFile("lorentzangle_Drell_Yan_10pb_490000ev.root", "READ");
+	TFile *f = new TFile("/localscratch/w/wilke/crab/crab_0_081107_095548/res/lorentzangle.root", "READ");
 	f->cd();
 	
 	TF1 *f1 = new TF1("f1","[0] + [1]*x",50., 235.); 
