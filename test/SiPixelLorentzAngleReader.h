@@ -13,9 +13,6 @@
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "TROOT.h"
-#include "TFile.h"
-#include "TH2F.h"
 
 
 //
@@ -32,9 +29,6 @@
 
   private:
     bool printdebug_;
-    TH1F* LorentzAngleBarrel_;
-    TH1F* LorentzAngleForward_;
-    bool useSimRcd_;
   };
 
 #endif
