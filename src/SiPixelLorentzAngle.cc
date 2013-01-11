@@ -18,8 +18,8 @@
 #include "DataFormats/SiStripDetId/interface/StripSubdetector.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiStripMatchedRecHit2D.h"
 #include "Geometry/CommonTopologies/interface/StripTopology.h"
-#include "DataFormats/SiPixelDetId/interface/PXBDetId.h"
-#include "DataFormats/SiPixelDetId/interface/PXFDetId.h"
+#include "DataFormats/TrackerCommon/interface/TrackerTopology.h"
+#include "Geometry/Records/interface/IdealGeometryRecord.h"
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
 
 #include "TrackingTools/Records/interface/TransientRecHitRecord.h"
@@ -173,7 +173,12 @@ void PixelLorentzAngle::beginJob()
 
 // Functions that gets called by framework every event
 void PixelLorentzAngle::analyze(const edm::Event& e, const edm::EventSetup& es)
-{  
+{
+  //Retrieve tracker topology from geometry
+  edm::ESHandle<TrackerTopology> tTopoHandle;
+  es.get<IdealGeometryRecord>().get(tTopoHandle);
+  const TrackerTopology* const tTopo = tTopoHandle.product();
+  
   //cout<<"STOP 4"<<endl;
 
   event_counter_++;
@@ -294,10 +299,9 @@ void PixelLorentzAngle::analyze(const edm::Event& e, const edm::EventSetup& es)
 	  if(!topol) {
 	    //cout<<"CONTINUE FROM TOPOLOGY"<<endl;
 	    continue;}
-	  PXBDetId pxbdetIdObj(detIdObj);
-	  layer_ = pxbdetIdObj.layer();
-	  ladder_ = pxbdetIdObj.ladder();
-	  module_ = pxbdetIdObj.module();
+	  layer_ = tTopo->pxbLayer(detIdObj);
+	  ladder_ = tTopo->pxbLadder(detIdObj);
+	  module_ = tTopo->pxbModule(detIdObj);
 	  float tmp1 = theGeomDet->surface().toGlobal(Local3DPoint(0.,0.,0.)).perp();
 	  float tmp2 = theGeomDet->surface().toGlobal(Local3DPoint(0.,0.,1.)).perp();
 	  if ( tmp2<tmp1 ) isflipped_ = 1;
@@ -413,12 +417,12 @@ void PixelLorentzAngle::analyze(const edm::Event& e, const edm::EventSetup& es)
 	  const PixelTopology * topol = &(theGeomDet->specificTopology());
 
 	  if(!topol) continue;
-	  PXFDetId pxfdetIdObj(detIdObj);
-	  sideF_ = pxfdetIdObj.side();
-	  diskF_ = pxfdetIdObj.disk();
-	  bladeF_ = pxfdetIdObj.blade();
-	  panelF_ = pxfdetIdObj.panel();
-	  moduleF_ = pxfdetIdObj.module();
+	  
+	  sideF_ = tTopo->pxfSide(detIdObj);
+	  diskF_ = tTopo->pxfDisk(detIdObj);
+	  bladeF_ = tTopo->pxfBlade(detIdObj);
+	  panelF_ = tTopo->pxfPanel(detIdObj);
+	  moduleF_ = tTopo->pxfModule(detIdObj);
 	  // 					float tmp1 = theGeomDet->surface().toGlobal(Local3DPoint(0.,0.,0.)).perp();
 	  // 					float tmp2 = theGeomDet->surface().toGlobal(Local3DPoint(0.,0.,1.)).perp();
 	  // 					if ( tmp2<tmp1 ) isflipped_ = 1;
@@ -490,7 +494,7 @@ void PixelLorentzAngle::analyze(const edm::Event& e, const edm::EventSetup& es)
 	      }
 	    } // end of filling simhit_
 	  }
-	  SiPixelLorentzAngleTreeForward_->Fill();
+	  //SiPixelLorentzAngleTreeForward_->Fill();//don't fill Forward tree for the moment, not needed
 	}
       }	//end iteration over trajectory measurements
     } //end iteration over trajectories
